@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.nio.*;
+import java.nio.file.*;
 
 class automate{
 
