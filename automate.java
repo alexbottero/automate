@@ -26,7 +26,7 @@ class automate{
 				tabDelta[i][j]=prefSuf(m,motCourant+lettre.charAt(j));
 			}
 			motCourant=motCourant+m.charAt(i);
-			System.out.println(motCourant);	
+			//System.out.println(motCourant);	
 		}
 		for (int j=0; j<lettre.length();j++ ) {
 				//System.out.println(motCourant+lettre.charAt(j));
@@ -38,31 +38,27 @@ class automate{
 	}
 
 
-	public static void chromo(){
+	public static void chromo(String chemin, String sortie ){
 		try{
-		/*Scanner sc =new Scanner(new File("/Users/alexandre/automate/chr22.fa"));
-		while (sc.hasNextLine()) {
-   			seqEntier+=sc.nextLine().toUpperCase();
-		}*/
-		String seqEntier = new String(Files.readAllBytes(Paths.get("/Users/alexandre/automate/chr22.fa")));
-		seqEntier=seqEntier.substring(6).toUpperCase();
+			BufferedWriter out = new BufferedWriter(new FileWriter(sortie));
+			String seqEntier = new String(Files.readAllBytes(Paths.get("/Users/alexandre/automate/chr22.fa")));
+			while(seqEntier.charAt(0)!='A'&& seqEntier.charAt(0)!='C'&& seqEntier.charAt(0)!='G'&& seqEntier.charAt(0)!='T'){
+				seqEntier=seqEntier.substring(1);
+			}
+			seqEntier=seqEntier.toUpperCase();
 
-		//System.out.println(seqEntier);
+			//System.out.println(seqEntier);
 
-		BufferedReader motif = new BufferedReader(new FileReader("/Users/alexandre/automate/tags.txt"));
-		String lineMotif;
-		while ((lineMotif = motif.readLine()) != null) {
-			System.out.println(lineMotif);
-   			int tab[][]=delta(lineMotif,"ACGT");
-			/*for (int i=0;i<tab.length;i++ ) {
-				for (int j=0;j<tab[0].length; j++) {
-					System.out.print(tab[i][j]);
-				}
-				System.out.println("");
-			}*/				
-   			rechMotif(seqEntier,lineMotif,tab);
-		}
-		motif.close();
+			BufferedReader motif = new BufferedReader(new FileReader(chemin));
+			String lineMotif;
+			while ((lineMotif = motif.readLine()) != null) {
+				//System.out.println(lineMotif);
+	   			int tab[][]=delta(lineMotif,"ACGT");
+
+	   			rechMotif(seqEntier,lineMotif,tab,out);
+			}
+			motif.close();
+			out.close();
 		}
 		catch(Exception e){
 			System.out.println(e);
@@ -71,33 +67,14 @@ class automate{
 
 
 	public static void main(String[]args){
-		/*int tab[][]= delta("agagaca","acgt");
-		for (int i=0;i<tab.length;i++ ) {
-			for (int j=0;j<tab[0].length; j++) {
-				System.out.print(tab[i][j]);
-	
-			}
-		System.out.println("");
-		}
-		rechMotif("aaggaaaa","aa");*/
-		chromo();
+		chromo("/Users/alexandre/automate/tags.txt","/Users/alexandre/automate/sortie.txt");
 	}
-
-
-
-	public static void rechMotif(String text,String motif,int[][]t){
+	public static void  rechMotif(String text,String motif,int[][]t,BufferedWriter s){
+		
 		int tab[][]=t;
-		/*for (int i=0;i<tab.length;i++ ) {
-			for (int j=0;j<tab[0].length; j++) {
-				System.out.print(tab[i][j]);
-			}
-		System.out.println("");
-		}*/
 		int indice=-1;	
 		int etat=0;
-
 		for (int i=0;i<text.length() ;i++ ) {
-
 			if(text.charAt(i)=='A'){
 				indice=0;
 			}
@@ -110,13 +87,14 @@ class automate{
 			if(text.charAt(i)=='T'){
 				indice=3;
 			}
-			System.out.println(etat==motif.length());
 			etat =tab[etat][indice];
 			if (etat==motif.length()){
-
-				System.out.println("mot trouvé a l'indice "+(i-(motif.length()-1)));
+				try{
+					s.write( motif + " : "+(i-(motif.length()-1))+"\n");
+				}
+				catch(Exception e){ System.out.println(e);}
+				
 			}
-
 		}
 	}
 }
