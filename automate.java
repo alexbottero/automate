@@ -2,12 +2,11 @@ class automate{
 
 	public static int prefSuf(String m1,String m2){
 		m1=m1.substring(0,m2.length());
+
 		if(m1.equals(m2)){
 			return m2.length();
 		}
-		if(m2.length()==0){
-			return 0;
-		}
+
 		else {
 			return prefSuf(m1,m2.substring(1,m2.length()));
 		}
@@ -19,16 +18,31 @@ class automate{
 		String motCourant="";
 		for (int i=0; i<m.length();i++ ) {
 			for (int j=0; j<lettre.length();j++ ) {
+				//System.out.println(motCourant+lettre.charAt(j));
 				tabDelta[i][j]=prefSuf(m,motCourant+lettre.charAt(j));
 			}
 			motCourant=motCourant+m.charAt(i);
+			System.out.println(motCourant);	
 		}
+		for (int j=0; j<lettre.length();j++ ) {
+				//System.out.println(motCourant+lettre.charAt(j));
+				tabDelta[m.length()][j]=prefSuf(m,(motCourant.substring(1))+lettre.charAt(j));
+			}
+
+
 		return tabDelta;
 	}
 
 	public static void main(String[]args){
-		rechMotif("agagacaaaaaa","aa");
-
+		int tab[][]= delta("agagaca","acgt");
+		for (int i=0;i<tab.length;i++ ) {
+			for (int j=0;j<tab[0].length; j++) {
+				System.out.print(tab[i][j]);
+	
+			}
+		System.out.println("");
+		}
+		rechMotif("aaggaaaa","aa");
 
 	}
 	public static void rechMotif(String text,String motif){
