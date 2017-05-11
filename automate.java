@@ -1,3 +1,7 @@
+import java.io.*;
+import java.util.*;
+import java.nio.*;
+
 class automate{
 
 	public static int prefSuf(String m1,String m2){
@@ -33,6 +37,28 @@ class automate{
 		return tabDelta;
 	}
 
+
+	public static void chromo(){
+		try{
+		/*Scanner sc =new Scanner(new File("/Users/alexandre/automate/chr22.fa"));
+		while (sc.hasNextLine()) {
+   			seqEntier+=sc.nextLine().toUpperCase();
+		}*/
+		String seqEntier = new String(Files.readAllBytes(Paths.get("chr22.fa")));
+		System.out.println(seqEntier);
+		BufferedReader motif = new BufferedReader(new FileReader("/Users/alexandre/automate/tags.txt"));
+		String lineMotif;
+		while ((lineMotif = motif.readLine()) != null) {
+   			rechMotif(lineMotif,"ACGT");
+		}
+		motif.close();
+		}
+		catch(Exception e){
+			System.out.println("fichier introuvable");
+		}
+	}
+
+
 	public static void main(String[]args){
 		int tab[][]= delta("agagaca","acgt");
 		for (int i=0;i<tab.length;i++ ) {
@@ -43,16 +69,16 @@ class automate{
 		System.out.println("");
 		}
 		rechMotif("aaggaaaa","aa");
-
+		chromo();
 	}
 	public static void rechMotif(String text,String motif){
 		int tab[][]= delta(motif,"acgt");
-		for (int i=0;i<tab.length;i++ ) {
+		/*for (int i=0;i<tab.length;i++ ) {
 			for (int j=0;j<tab[0].length; j++) {
 				System.out.print(tab[i][j]);
 			}
 		System.out.println("");
-		}
+		}*/
 		int indice=-1;	
 		int etat=0;
 
