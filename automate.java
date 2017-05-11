@@ -44,23 +44,28 @@ class automate{
 		while (sc.hasNextLine()) {
    			seqEntier+=sc.nextLine().toUpperCase();
 		}*/
-		String seqEntier = new String(Files.readAllBytes(Paths.get("chr22.fa")));
+		String seqEntier = new String(Files.readAllBytes(Paths.get("/Users/alexandre/automate/chr22.fa")));
+		seqEntier=seqEntier.substring(6).toUpperCase();
+
 		System.out.println(seqEntier);
+
 		BufferedReader motif = new BufferedReader(new FileReader("/Users/alexandre/automate/tags.txt"));
 		String lineMotif;
 		while ((lineMotif = motif.readLine()) != null) {
-   			rechMotif(lineMotif,"ACGT");
+			System.out.println(lineMotif);
+   			int tab[][]=delta(lineMotif,"ACGT");
+   			rechMotif(lineMotif,lineMotif,tab);
 		}
 		motif.close();
 		}
 		catch(Exception e){
-			System.out.println("fichier introuvable");
+			System.out.println(e);
 		}
 	}
 
 
 	public static void main(String[]args){
-		int tab[][]= delta("agagaca","acgt");
+		/*int tab[][]= delta("agagaca","acgt");
 		for (int i=0;i<tab.length;i++ ) {
 			for (int j=0;j<tab[0].length; j++) {
 				System.out.print(tab[i][j]);
@@ -68,32 +73,32 @@ class automate{
 			}
 		System.out.println("");
 		}
-		rechMotif("aaggaaaa","aa");
+		rechMotif("aaggaaaa","aa");*/
 		chromo();
 	}
-	public static void rechMotif(String text,String motif){
-		int tab[][]= delta(motif,"acgt");
-		/*for (int i=0;i<tab.length;i++ ) {
+	public static void rechMotif(String text,String motif,int[][]t){
+		int tab[][]=t;
+		for (int i=0;i<tab.length;i++ ) {
 			for (int j=0;j<tab[0].length; j++) {
 				System.out.print(tab[i][j]);
 			}
 		System.out.println("");
-		}*/
+		}
 		int indice=-1;	
 		int etat=0;
 
 		for (int i=0;i<text.length() ;i++ ) {
 
-			if(text.charAt(i)=='a'){
+			if(text.charAt(i)=='A'){
 				indice=0;
 			}
-			if(text.charAt(i)=='c'){
+			if(text.charAt(i)=='C'){
 				indice=1;
 			}
-			if(text.charAt(i)=='g'){
+			if(text.charAt(i)=='G'){
 				indice=2;
 			}
-			if(text.charAt(i)=='t'){
+			if(text.charAt(i)=='T'){
 				indice=3;
 			}
 			etat =tab[etat][indice];
