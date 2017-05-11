@@ -47,14 +47,20 @@ class automate{
 		String seqEntier = new String(Files.readAllBytes(Paths.get("/Users/alexandre/automate/chr22.fa")));
 		seqEntier=seqEntier.substring(6).toUpperCase();
 
-		System.out.println(seqEntier);
+		//System.out.println(seqEntier);
 
 		BufferedReader motif = new BufferedReader(new FileReader("/Users/alexandre/automate/tags.txt"));
 		String lineMotif;
 		while ((lineMotif = motif.readLine()) != null) {
 			System.out.println(lineMotif);
    			int tab[][]=delta(lineMotif,"ACGT");
-   			rechMotif(lineMotif,lineMotif,tab);
+			/*for (int i=0;i<tab.length;i++ ) {
+				for (int j=0;j<tab[0].length; j++) {
+					System.out.print(tab[i][j]);
+				}
+				System.out.println("");
+			}*/				
+   			rechMotif(seqEntier,lineMotif,tab);
 		}
 		motif.close();
 		}
@@ -76,14 +82,17 @@ class automate{
 		rechMotif("aaggaaaa","aa");*/
 		chromo();
 	}
+
+
+
 	public static void rechMotif(String text,String motif,int[][]t){
 		int tab[][]=t;
-		for (int i=0;i<tab.length;i++ ) {
+		/*for (int i=0;i<tab.length;i++ ) {
 			for (int j=0;j<tab[0].length; j++) {
 				System.out.print(tab[i][j]);
 			}
 		System.out.println("");
-		}
+		}*/
 		int indice=-1;	
 		int etat=0;
 
@@ -101,8 +110,10 @@ class automate{
 			if(text.charAt(i)=='T'){
 				indice=3;
 			}
+			System.out.println(etat==motif.length());
 			etat =tab[etat][indice];
 			if (etat==motif.length()){
+
 				System.out.println("mot trouvé a l'indice "+(i-(motif.length()-1)));
 			}
 
