@@ -38,6 +38,7 @@ class automate{
 	}
 
 
+
 	public static void chromo(String chemin, String sortie ){
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter(sortie));
@@ -47,7 +48,6 @@ class automate{
 			}
 			seqEntier=seqEntier.toUpperCase();
 
-			//System.out.println(seqEntier);
 
 			BufferedReader motif = new BufferedReader(new FileReader(chemin));
 			String lineMotif;
@@ -72,9 +72,9 @@ class automate{
 	public static void  rechMotif(String text,String motif,int[][]t,BufferedWriter s){
 		
 		int tab[][]=t;
-		int indice=-1;	
 		int etat=0;
-		for (int i=0;i<text.length() ;i++ ) {
+		for (int i=0;i<text.length() ; i++ ) {
+			int indice=-1;	
 			if(text.charAt(i)=='A'){
 				indice=0;
 			}
@@ -87,13 +87,16 @@ class automate{
 			if(text.charAt(i)=='T'){
 				indice=3;
 			}
-			etat =tab[etat][indice];
-			if (etat==motif.length()){
-				try{
-					s.write( motif + " : "+(i-(motif.length()-1))+"\n");
+			if(indice != -1){
+				etat = tab[etat][indice];
+				if (etat==motif.length()){
+					try{
+						System.out.println(motif + " : "+(i-(motif.length()-1))+"\n");
+						s.write( motif + " : "+(i-(motif.length()-1))+"\n");
+					}
+					catch(IOException e){ System.out.println(e);}
+					
 				}
-				catch(Exception e){ System.out.println(e);}
-				
 			}
 		}
 	}
