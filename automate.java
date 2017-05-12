@@ -73,6 +73,7 @@ class automate{
 		
 		int tab[][]=t;
 		int etat=0;
+		int it = 0;
 		for (int i=0;i<text.length() ; i++ ) {
 			int indice=-1;	
 			if(text.charAt(i)=='A'){
@@ -87,12 +88,14 @@ class automate{
 			if(text.charAt(i)=='T'){
 				indice=3;
 			}
+			if(text.charAt(i)!='\n'){
+				it++;
+			}
 			if(indice != -1){
 				etat = tab[etat][indice];
 				if (etat==motif.length()){
 					try{
-						System.out.println(motif + " : "+(i-(motif.length()-1))+"\n");
-						s.write( motif + " : "+(i-(motif.length()-1))+"\n");
+						s.write( motif + " : "+(it-(motif.length()-1))+"\n");
 					}
 					catch(IOException e){ System.out.println(e);}
 					
